@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Input from '@material-ui/core/Input'
+import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import IconButton from '@material-ui/core/IconButton'
 import { withStyles } from '@material-ui/core/styles'
@@ -50,31 +50,31 @@ class PasswordField extends React.Component {
       visible: visibleProp, // eslint-disable-line
       ...other
     } = this.props
+    other.InputProps = other.InputProps || {};
+    other.InputProps.endAdornment =
+      <InputAdornment position='end' className={classes.adornment}>
+        <IconButton
+          onClick={this.toggleVisibility}
+          onMouseDown={this.handleButtonMouseDown}
+          disabled={other.disabled || buttonDisabled}
+        >
+          <ToggleIcon
+            on={visible}
+            onIcon={<Visibility />}
+            offIcon={<VisibilityOff />}
+          />
+        </IconButton>
+      </InputAdornment>;
 
     const {
       visible
     } = this.state
 
     return (
-      <Input
+      <TextField
         {...other}
         classes={{ root: classes.root, input: classes.input }}
         type={this.state.visible ? 'text' : 'password'}
-        endAdornment={
-          <InputAdornment position='end' className={classes.adornment}>
-            <IconButton
-              onClick={this.toggleVisibility}
-              onMouseDown={this.handleButtonMouseDown}
-              disabled={other.disabled || buttonDisabled}
-            >
-              <ToggleIcon
-                on={visible}
-                onIcon={<Visibility />}
-                offIcon={<VisibilityOff />}
-              />
-            </IconButton>
-          </InputAdornment>
-        }
       />
     )
   }
@@ -86,7 +86,7 @@ PasswordField.defaultProps = {
 }
 
 PasswordField.propTypes = {
-  ...Input.propTypes,
+  ...TextField.propTypes,
   buttonDisabled: PropTypes.bool,
   visible: PropTypes.bool
 }
